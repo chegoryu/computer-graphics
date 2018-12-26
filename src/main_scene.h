@@ -1,9 +1,11 @@
 #pragma once
-#include <scene.h>
+#include "scene.h"
 
 class TMainScene: public TScene {
 public:
-    TMainScene(int argc, char **argv): TScene(argc, argv) {
+    TMainScene(int argc, char** argv)
+        : TScene(argc, argv)
+    {
     }
 
 private:
