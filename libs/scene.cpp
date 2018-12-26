@@ -6,6 +6,7 @@
 #include <GL/glut.h>
 #endif
 
+
 std::shared_ptr<TScene> TScene::MainScene = nullptr;
 
 void TScene::DrawAll() {
