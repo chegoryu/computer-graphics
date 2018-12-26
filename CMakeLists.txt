@@ -2,10 +2,9 @@ cmake_minimum_required(VERSION 3.13)
 project(ComputerGraphics CXX)
 
 set(CMAKE_CXX_STANDARD_REQUIRED 14)
-set(CMAKE_C_STANDARD_REQUIRED 14)
 
 if (CMAKE_CXX_COMPILER_ID MATCHES "[cC][lL][aA][nN][gG]")
-      set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -fdiagnostics-color=always -ggdb3 -pedantic -std=c++14 -framework GLUT -framework OpenGL -framework Cocoa -Wno-deprecated")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wno-deprecated -fdiagnostics-color=always -ggdb3 -pedantic -std=c++14 -framework GLUT -framework OpenGL -framework Cocoa")
 else()
     message("[Warning]: You are building without clang c++ compiler, you may need to tune some things")
 endif()
