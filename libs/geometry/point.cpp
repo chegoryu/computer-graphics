@@ -1,6 +1,7 @@
 #include "point.h"
 
 const TDoubleType TPoint::EPSILON = 1e-3;
+const TDoubleType TPoint::INF = 1e+9;
 
 TDoubleType TPoint::GetSquare() const {
     return *this % *this;

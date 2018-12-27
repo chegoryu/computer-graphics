@@ -24,6 +24,7 @@ public:
 
 public:
     static const TDoubleType EPSILON;
+    static const TDoubleType INF;
 };
 
 TPoint operator+(const TPoint& a, const TPoint& b);

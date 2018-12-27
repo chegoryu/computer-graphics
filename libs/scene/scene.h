@@ -1,11 +1,31 @@
 #pragma once
 
+#include "../geometry/geometry_objects.h"
+#include "../geometry/lights.h"
+
 #include <memory>
+#include <unistd.h>
 #include <string>
 #include <vector>
 
 
 class TScene {
+private:
+    struct TObjectIntersection {
+        TObjectIntersection(ssize_t index = -1, TDoubleType position = TPoint::INF)
+            : Index_(index)
+            , Position_(position)
+        {
+        }
+
+        ssize_t Index_;
+        TDoubleType Position_;
+
+        bool operator<(const TObjectIntersection& other) {
+            return Position_ < other.Position_;
+        }
+    };
+
 public:
     TScene(int argc, char** argv)
         : Argc_(argc)
@@ -15,6 +35,8 @@ public:
         , WindowWidthSize_(0)
         , WindowHeightSize_(0)
         , WindowName_("")
+        , CameraRay_()
+        , Objects_()
     {
     }
 
@@ -31,15 +53,23 @@ private:
     void DrawScene();
     static void GlupDrawScene();
 
+    TColor TraceRay(const TRay& ray, size_t depth, TDoubleType minimumPosition, TDoubleType maximalPosition);
+    TDoubleType GetLight(const TPoint& position, const TPoint& normal, const TPoint view, TDoubleType specular);
+    TObjectIntersection NearestObject(const TRay& ray, TDoubleType minimumPosition, TDoubleType maximalPosition);
+
 protected:
     int Argc_;
     char** Argv_;
-    size_t WindowWidthPosition_;
-    size_t WindowHeightPosition_;
-    size_t WindowWidthSize_;
-    size_t WindowHeightSize_;
+    ssize_t WindowWidthPosition_;
+    ssize_t WindowHeightPosition_;
+    ssize_t WindowWidthSize_;
+    ssize_t WindowHeightSize_;
     std::string WindowName_;
 
+    TRay CameraRay_;
+    std::vector<std::unique_ptr<TGeometryObject>> Objects_;
 private:
+    static const size_t START_DEPTH;
+
     static TScene* MainScene;
 };
