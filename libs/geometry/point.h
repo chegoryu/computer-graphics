@@ -21,6 +21,9 @@ public:
     TDoubleType X_;
     TDoubleType Y_;
     TDoubleType Z_;
+
+public:
+    static const TDoubleType EPSILON;
 };
 
 TPoint operator+(const TPoint& a, const TPoint& b);
@@ -31,3 +34,6 @@ TPoint operator*(TDoubleType x, const TPoint& a);
 TPoint operator/(const TPoint& a, TDoubleType x);
 TPoint operator*(const TPoint& a, const TPoint& b);
 TDoubleType operator%(const TPoint& a, const TPoint& b);
+
+bool operator==(const TPoint& a, const TPoint& b);
+bool operator!=(const TPoint& a, const TPoint& b);

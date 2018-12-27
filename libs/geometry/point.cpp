@@ -1,5 +1,6 @@
 #include "point.h"
 
+const TDoubleType TPoint::EPSILON = 1e-3;
 
 TDoubleType TPoint::GetSquare() const {
     return *this % *this;
@@ -47,4 +48,12 @@ TPoint operator*(const TPoint& a, const TPoint& b) {
 
 TDoubleType operator%(const TPoint& a, const TPoint& b) {
     return a.X_ * b.X_ + a.Y_ * b.Y_ + a.Z_ * b.Z_;
+}
+
+bool operator==(const TPoint& a, const TPoint& b) {
+    return CompareWithEpsilon((a - b).GetLen(), 0.0, TPoint::EPSILON);
+}
+
+bool operator!=(const TPoint& a, const TPoint& b) {
+    return !CompareWithEpsilon((a - b).GetLen(), 0.0, TPoint::EPSILON);
 }
