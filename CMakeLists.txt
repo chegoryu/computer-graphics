@@ -11,9 +11,11 @@ endif()
 
 add_definitions(-DGL_GLEXT_PROTOTYPES)
 
-set(CG_SRC src/main.cpp
-           src/main_scene.cpp
-           libs/scene.cpp)
+set(CG_SRC libs/geometry/color.cpp
+           libs/geometry/point.cpp
+           libs/scene/scene.cpp
+           src/main.cpp
+           src/main_scene.cpp)
 
 include_directories(libs)
 add_executable(ComputerGraphics ${CG_SRC})

@@ -7,7 +7,7 @@
 #endif
 
 
-std::shared_ptr<TScene> TScene::MainScene = nullptr;
+TScene* TScene::MainScene = nullptr;
 
 void TScene::DrawAll() {
     InitWindow();
@@ -26,7 +26,7 @@ void TScene::InitGlut() {
     glutInitWindowPosition(WindowWidthPosition_, WindowHeightPosition_);
     glutInitWindowSize(WindowWidthSize_, WindowHeightSize_);
     glutCreateWindow(WindowName_.c_str());
-    MainScene.reset(this);
+    MainScene = this;
     glClearColor(0.0, 0.0, 0.0, 0.0);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();

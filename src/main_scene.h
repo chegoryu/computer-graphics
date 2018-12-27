@@ -1,5 +1,5 @@
 #pragma once
-#include "scene.h"
+#include "scene/scene.h"
 
 class TMainScene: public TScene {
 public:

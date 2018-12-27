@@ -39,5 +39,5 @@ protected:
     std::string WindowName_;
 
 private:
-    static std::shared_ptr<TScene> MainScene;
+    static TScene* MainScene;
 };
