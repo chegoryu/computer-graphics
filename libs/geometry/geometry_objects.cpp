@@ -3,7 +3,7 @@
 
 TPoint TGeometryPlane::GetNormalAtPoint(const TPoint& from, const TPoint& /* position */) const {
     TPoint normal = ((B_ - A_) * (C_ - A_)).GetNormalize();
-    if (normal % (from - A_) > 0) {
+    if (normal % (from - A_) > 0.0) {
         return normal;
     } else {
         return -normal;
