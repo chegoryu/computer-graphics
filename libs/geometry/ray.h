@@ -11,6 +11,8 @@ public:
     {
     }
 
+    TPoint GetAtPosition(TDoubleType position) const;
+
 public:
     TPoint StartPosition_;
     TPoint Direction_;

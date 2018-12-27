@@ -13,6 +13,7 @@ add_definitions(-DGL_GLEXT_PROTOTYPES)
 
 set(CG_SRC  libs/geometry/color.cpp
             libs/geometry/common.cpp
+            libs/geometry/geometry_objects.cpp
             libs/geometry/lights.cpp
             libs/geometry/point.cpp
             libs/geometry/ray.cpp

@@ -18,6 +18,8 @@ public:
     {
     }
 
+    virtual ~TScene() = default;
+
     void DrawAll();
 
 protected:
