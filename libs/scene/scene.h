@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../geometry/geometry_objects.h"
-#include "../geometry/lights.h"
+#include "geometry/geometry_objects.h"
+#include "geometry/lights.h"
 
 #include <memory>
 #include <unistd.h>
