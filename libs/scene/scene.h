@@ -46,7 +46,7 @@ public:
 
 protected:
     virtual void InitWindow() = 0;
-    virtual void PlaceObjects() = 0;
+    virtual void InitScene() = 0;
 
 private:
     void InitGlut();
@@ -54,7 +54,7 @@ private:
     static void GlupDrawScene();
 
     TColor TraceRay(const TRay& ray, size_t depth, TDoubleType minimumPosition, TDoubleType maximalPosition);
-    TDoubleType GetLight(const TPoint& position, const TPoint& normal, const TPoint view, TDoubleType specular);
+    TDoubleType GetLightIntensity(const TPoint& position, const TPoint& normal, const TPoint view, TDoubleType specular);
     TObjectIntersection NearestObject(const TRay& ray, TDoubleType minimumPosition, TDoubleType maximalPosition);
 
 protected:
@@ -68,6 +68,7 @@ protected:
 
     TRay CameraRay_;
     std::vector<std::unique_ptr<TGeometryObject>> Objects_;
+    std::vector<TLight> Lights_;
 private:
     static const size_t START_DEPTH;
 

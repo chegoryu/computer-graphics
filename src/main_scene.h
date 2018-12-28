@@ -12,5 +12,5 @@ public:
 
 private:
     virtual void InitWindow() override final;
-    virtual void PlaceObjects() override final;
+    virtual void InitScene() override final;
 };

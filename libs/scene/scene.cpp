@@ -12,12 +12,11 @@ const size_t TScene::START_DEPTH = 5;
 
 void TScene::DrawAll() {
     InitWindow();
+    InitScene();
     InitGlut();
 }
 
 void TScene::DrawScene() {
-    PlaceObjects();
-
     glClear(GL_COLOR_BUFFER_BIT);
     glPointSize(1.3);
 
@@ -54,7 +53,7 @@ void TScene::InitGlut() {
     glClearColor(0.0, 0.0, 0.0, 0.0);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    glOrtho(-WindowWidthSize_ / 2.0, WindowWidthSize_ / 2.0, -WindowHeightSize_ / 2.0, WindowHeightSize_ / 2.0, -100, 100);
+    glOrtho(-WindowWidthSize_ / 2.0, WindowWidthSize_ / 2.0, -WindowHeightSize_ / 2.0, WindowHeightSize_ / 2.0, -300, 300);
     glutDisplayFunc(GlupDrawScene);
     glutMainLoop();
 }
@@ -75,7 +74,7 @@ TColor TScene::TraceRay(const TRay& ray, size_t availableDepth, TDoubleType mini
         TPoint position = ray.GetAtPosition(nearestObject.Position_);
         TPoint normal = Objects_[nearestObject.Index_]->GetNormalAtPoint(ray.StartPosition_, position).GetNormalize();
 
-        TColor curColor = Objects_[nearestObject.Index_]->Color_ * GetLight(position, normal, -ray.Direction_, Objects_[nearestObject.Index_]->Specular_);
+        TColor curColor = Objects_[nearestObject.Index_]->Color_ * GetLightIntensity(position, normal, -ray.Direction_, Objects_[nearestObject.Index_]->Specular_);
 
         if (Objects_[nearestObject.Index_]->Reflective_ > TPoint::EPSILON) {
             TColor reflectiveColor = TraceRay(TRay(position, (-ray.Direction_).GetReflective(normal)), availableDepth - 1, TPoint::EPSILON, TPoint::INF / 2.0);
@@ -86,8 +85,31 @@ TColor TScene::TraceRay(const TRay& ray, size_t availableDepth, TDoubleType mini
     }
 }
 
-TDoubleType TScene::GetLight(const TPoint& position, const TPoint& normal, const TPoint view, TDoubleType specular) {
-    return 1.0;
+TDoubleType TScene::GetLightIntensity(const TPoint& position, const TPoint& normal, const TPoint view, TDoubleType specular) {
+    TDoubleType intensity = 0.0;
+    for (size_t i = 0; i < Lights_.size(); ++i) {
+        if (Lights_[i].Type_ == TLight::ELightType::AMBIENT) {
+            intensity += Lights_[i].Intensity_;
+        } else {
+            TPoint shift = Lights_[i].Type_ == TLight::ELightType::DIRECTION ? Lights_[i].Direction_ * TPoint::INF / 10.0 : Lights_[i].Position_ - position;
+
+            if (NearestObject(TRay(position, shift), TPoint::EPSILON * 10, 1.0).Index_ == -1) {
+                TDoubleType scProd = normal % shift;
+                if (scProd > 0.0) {
+                    intensity += Lights_[i].Intensity_ * scProd / normal.GetLen() / shift.GetLen();
+                }
+
+                if (specular > 0.0) {
+                    TDoubleType reflectiveView = shift.GetReflective(normal) % view;
+                    if (reflectiveView > 0.0) {
+                        intensity += Lights_[i].Intensity_ * pow(reflectiveView / shift.GetReflective(normal).GetLen() / view.GetLen(), specular);
+                    }
+                }
+            }
+        }
+    }
+
+    return intensity;
 }
 
 TScene::TObjectIntersection TScene::NearestObject(const TRay& ray, TDoubleType minimumPosition, TDoubleType maximalPosition) {

@@ -16,7 +16,7 @@ std::vector<TDoubleType> TGeometryPlane::IntersectRay(const TRay& ray) const {
         return std::vector<TDoubleType>();
     } else {
         std::vector<TDoubleType> answer;
-        TDoubleType intersect = (normal % A_ - normal % ray.StartPosition_) / (normal % ray.Direction_);
+        TDoubleType intersect = (normal % (A_ - ray.StartPosition_)) / (normal % ray.Direction_);
         if (intersect > -TPoint::EPSILON) {
             answer.push_back(intersect);
         }
@@ -31,9 +31,9 @@ TPoint TGeometrySphere::GetNormalAtPoint(const TPoint& /* from */, const TPoint&
 std::vector<TDoubleType> TGeometrySphere::IntersectRay(const TRay& ray) const {
     TPoint direction = ray.StartPosition_ - Center_;
 
-    TDoubleType a = ray.Direction_ % ray.Direction_; // always > 0
+    TDoubleType a = ray.Direction_.GetSquare();
     TDoubleType b = 2.0 * (ray.Direction_ % direction);
-    TDoubleType c = direction % direction - Radius_ * Radius_;
+    TDoubleType c = direction.GetSquare() - Radius_ * Radius_;
     TDoubleType d = b * b - 4.0 * a * c;
 
     if (d <= -TPoint::EPSILON) {

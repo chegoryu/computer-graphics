@@ -21,8 +21,8 @@ public:
     }
 
     static TLight MakeAmbientLight(TDoubleType intensity);
-    static TLight MakeDirectionLight(TDoubleType intensity, TPoint direction);
-    static TLight MakePointLight(TDoubleType intensity, TPoint direction, TPoint position);
+    static TLight MakeDirectionLight(TDoubleType intensity, const TPoint& direction);
+    static TLight MakePointLight(TDoubleType intensity, const TPoint& position);
 
 public:
     ELightType Type_;
